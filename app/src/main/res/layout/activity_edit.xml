@@ -4,86 +4,119 @@
     android:layout_height="match_parent"
     android:background="@color/color_homepage">
 
-    <RelativeLayout
-        android:id="@+id/rl_op"
-        android:layout_width="match_parent"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:layout_height="48dp">
-
-        <Button
-            android:id="@+id/btn_back"
-            android:layout_width="62dp"
-            android:layout_height="40dp"
-            android:layout_alignParentLeft="true"
-            android:background="@drawable/selector_btn_back"
-            android:text="返回"
-            android:gravity="center|right"
-            android:textSize="@dimen/title_text_size"
-            android:textColor="@drawable/selector_text_back"
-            android:layout_centerVertical="true"/>
-        
-        <Button
-            android:id="@+id/btn_save"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_centerInParent="true"
-            android:text="存储"
-            android:background="@android:color/transparent"
-            android:textSize="@dimen/title_text_size"
-            android:textColor="@drawable/selector_text_back"/>
-
-        <Button
-            android:id="@+id/btn_share"
-            android:layout_width="wrap_content"
-            android:layout_alignParentRight="true"
-            android:textSize="@dimen/title_text_size"
-            android:textColor="@drawable/selector_text_back"
-            android:layout_centerVertical="true"
-            android:text="分享"
-            android:background="@android:color/transparent"
-            android:layout_height="40dp" />
-
-    </RelativeLayout>
-
     <LinearLayout
+        android:id="@+id/ll_loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/rl_op"
+        android:gravity="center"
         android:orientation="vertical">
 
-        <WebView
-            android:id="@+id/webview"
-            android:layout_below="@id/rl_op"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"></WebView>
+        <ImageView
+            android:id="@+id/img_loading"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@mipmap/pic_loading_boy"
+            android:scaleType="matrix" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="卖力加载中..."
+            android:textColor="@color/text_color"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible">
 
         <RelativeLayout
+            android:id="@+id/rl_op"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_height="48dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp">
 
-            <com.shizhefei.view.indicator.ScrollIndicatorView
-                android:id="@+id/indicator"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"></com.shizhefei.view.indicator.ScrollIndicatorView>
+            <Button
+                android:id="@+id/btn_back"
+                android:layout_width="62dp"
+                android:layout_height="40dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/selector_btn_back"
+                android:gravity="center|right"
+                android:text="返回"
+                android:textColor="@drawable/selector_text_back"
+                android:textSize="@dimen/title_text_size" />
 
-            <View
-                android:layout_below="@id/indicator"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#c4d5c4"/>
+            <Button
+                android:id="@+id/btn_save"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_centerInParent="true"
+                android:background="@android:color/transparent"
+                android:text="存储"
+                android:textColor="@drawable/selector_text_back"
+                android:textSize="@dimen/title_text_size" />
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/viewpager"
-                android:layout_below="@id/indicator"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"></android.support.v4.view.ViewPager>
+            <Button
+                android:id="@+id/btn_share"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@android:color/transparent"
+                android:text="分享"
+                android:textColor="@drawable/selector_text_back"
+                android:textSize="@dimen/title_text_size" />
 
         </RelativeLayout>
 
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/rl_op"
+            android:orientation="vertical">
+
+            <WebView
+                android:id="@+id/webview"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_below="@id/rl_op"
+                android:layout_weight="1"></WebView>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <com.shizhefei.view.indicator.ScrollIndicatorView
+                    android:id="@+id/indicator"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"></com.shizhefei.view.indicator.ScrollIndicatorView>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/indicator"
+                    android:background="#c4d5c4" />
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/indicator"
+                    android:layout_marginTop="1dp"></android.support.v4.view.ViewPager>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
 
 </RelativeLayout>
