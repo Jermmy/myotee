@@ -4,9 +4,11 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -22,6 +24,7 @@ public class GridFragment extends Fragment {
 
     private GridView gridView;
     private GridAdapter adapter;
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -48,18 +51,32 @@ public class GridFragment extends Fragment {
         ArrayList<Integer> icons = loadEngine.getFeatureIcons().get(index);
         adapter = new GridAdapter(getActivity(), icons);
         gridView.setAdapter(adapter);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.i("GridFragment", "onItemClick=====>" + position);
+                adapter.setSelected(position);
+            }
+        });
     }
+
 
     class GridAdapter extends BaseAdapter {
 
         Context mContext;
         ArrayList<Integer> icons;
         LayoutInflater inflater;
+        boolean isSelected[];
 
         GridAdapter(Context context, ArrayList<Integer> icons) {
             this.mContext = context;
             this.icons = icons;
             this.inflater = LayoutInflater.from(mContext);
+            this.isSelected = new boolean[icons.size()];
+            for (int i = 0; i < icons.size(); i++) {
+                isSelected[i] = false;
+            }
+            this.isSelected[0] = true;
         }
 
         @Override
@@ -80,14 +97,28 @@ public class GridFragment extends Fragment {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
-                convertView = inflater.inflate(R.layout.item_gridview_edit, parent, false);
+                convertView = inflater.inflate(R.layout.item_gridview_edit, null, false);
+                ImageView image = (ImageView) convertView.findViewById(R.id.image);
+                image.setImageResource(icons.get(position));
             }
-            ImageView image = (ImageView) convertView.findViewById(R.id.image);
-            image.setBackgroundResource(icons.get(position));
-
+            if (isSelected[position]) {
+                convertView.setBackgroundResource(R.drawable.shape_item_gridview_edit);
+            } else {
+                convertView.setBackgroundResource(R.color.color_homepage);
+            }
             return convertView;
         }
 
+        public void setSelected(int position) {
+            for (int i = 0; i < isSelected.length; i++) {
+                isSelected[i] = false;
+            }
+            this.isSelected[position] = true;
+            notifyDataSetChanged();
+        }
 
     }
+
+
+
 }

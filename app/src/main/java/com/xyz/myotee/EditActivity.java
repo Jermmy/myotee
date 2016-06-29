@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -82,6 +83,7 @@ public class EditActivity extends BaseFragActivity implements View.OnClickListen
         loadingData();
         initView();
         initAdapter();
+        initWebView();
     }
 
     private void loadingData() {
@@ -113,13 +115,18 @@ public class EditActivity extends BaseFragActivity implements View.OnClickListen
         share.setOnClickListener(this);
 
         contentLayout.setVisibility(View.VISIBLE);
-
     }
 
 
     private void initAdapter() {
         adapter = new MyAdapter(getSupportFragmentManager());
         indicatorViewPager.setAdapter(adapter);
+    }
+
+    private void initWebView() {
+        webview.setWebViewClient(new WebViewClient() {
+
+        });
     }
 
     @Override
@@ -168,7 +175,6 @@ public class EditActivity extends BaseFragActivity implements View.OnClickListen
             if (convertView == null) {
                 convertView = (ImageButton)inflater.inflate(R.layout.item_indicator_tab, container, false);
             }
-            //Button button = (Button) convertView;
            // ((Button)convertView).setCompoundDrawablesWithIntrinsicBounds(null, selectors[position], null, null);
             //((Button)convertView).setCompoundDrawablesWithIntrinsicBounds(0, selectors[position], 0, 0);
             //((ImageButton)convertView).setBackground(selectors[position]);

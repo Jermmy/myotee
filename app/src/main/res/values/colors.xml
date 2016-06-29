@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="color_homepage">#EEEFF3</color>
+    <color name="color_homepage">#f8f9fa</color>
 
     <color name="text_color">#333333</color>
     <color name="app_bg_color">#fff6efdf</color>
