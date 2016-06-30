@@ -6,9 +6,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.JavascriptInterface;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -16,6 +20,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.shizhefei.view.indicator.IndicatorViewPager;
 import com.shizhefei.view.indicator.ScrollIndicatorView;
@@ -63,14 +68,14 @@ public class EditActivity extends BaseFragActivity implements View.OnClickListen
 //            R.mipmap.tab_17
 //    };
 
-    private String type[] = new String[] {
+    private String type[] = new String[]{
             "头发", "脸型", "眼睛"};
 
-    private final int selectedRes[] = new int[] {
+    private final int selectedRes[] = new int[]{
             R.mipmap.tab_1_down, R.mipmap.tab_3_down, R.mipmap.tab_6_down
     };
 
-    private final int unselectedRes[] = new int[] {
+    private final int unselectedRes[] = new int[]{
             R.mipmap.tab_1, R.mipmap.tab_3, R.mipmap.tab_6
     };
 
@@ -94,7 +99,7 @@ public class EditActivity extends BaseFragActivity implements View.OnClickListen
         if (!loadEngine.isInitiated()) {
             loadEngine.initFeatureIcons();
         }
-        loadingLayout.setVisibility(View.GONE);
+        //loadingLayout.setVisibility(View.GONE);
     }
 
 
@@ -114,7 +119,7 @@ public class EditActivity extends BaseFragActivity implements View.OnClickListen
         save.setOnClickListener(this);
         share.setOnClickListener(this);
 
-        contentLayout.setVisibility(View.VISIBLE);
+        //contentLayout.setVisibility(View.VISIBLE);
     }
 
 
@@ -124,9 +129,27 @@ public class EditActivity extends BaseFragActivity implements View.OnClickListen
     }
 
     private void initWebView() {
+        WebSettings settings = webview.getSettings();
+        settings.setJavaScriptEnabled(true);
+        webview.setWebChromeClient(new WebChromeClient());
         webview.setWebViewClient(new WebViewClient() {
-
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                editHead(0, 0);
+                Log.i("EditActivity", "onPageFinished============");
+                loadingLayout.setVisibility(View.GONE);
+                contentLayout.setVisibility(View.VISIBLE);
+            }
         });
+        webview.addJavascriptInterface(new JsInterface(), "control");
+//        webview.loadUrl("file:///android_asset/edit.html");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        webview.loadUrl("file:///android_asset/edit.html");
     }
 
     @Override
@@ -140,6 +163,24 @@ public class EditActivity extends BaseFragActivity implements View.OnClickListen
             case R.id.btn_share:
                 break;
         }
+    }
+
+    private void editHead(int position, int featureType) {
+        //webview.loadUrl("javascript:test()");
+        webview.loadUrl("javascript:testMethod(\"" + "xuyongzhe" + "\")");
+        //webview.loadUrl("javascript:testMethod()");
+
+    }
+
+    class JsInterface {
+        @JavascriptInterface
+        public void toastMessage(String msg) {
+            Toast.makeText(EditActivity.this, msg, Toast.LENGTH_SHORT).show();
+        }
+//        @JavascriptInterface
+//        public void toastMessage() {
+//            Toast.makeText(EditActivity.this, "toast", Toast.LENGTH_SHORT).show();
+//        }
     }
 
     class MyAdapter extends IndicatorViewPager.IndicatorFragmentPagerAdapter {
@@ -161,6 +202,12 @@ public class EditActivity extends BaseFragActivity implements View.OnClickListen
                 Bundle bundle = new Bundle();
                 bundle.putInt("index", i);
                 fragment.setArguments(bundle);
+                fragment.setOnItemSelectCallBack(new GridFragment.OnItemSelectCallBack() {
+                    @Override
+                    public void onItemSelected(View view, int position, long id, int featureType) {
+
+                    }
+                });
                 fragments.add(fragment);
             }
         }
@@ -173,12 +220,12 @@ public class EditActivity extends BaseFragActivity implements View.OnClickListen
         @Override
         public View getViewForTab(int position, View convertView, ViewGroup container) {
             if (convertView == null) {
-                convertView = (ImageButton)inflater.inflate(R.layout.item_indicator_tab, container, false);
+                convertView = (ImageButton) inflater.inflate(R.layout.item_indicator_tab, container, false);
             }
-           // ((Button)convertView).setCompoundDrawablesWithIntrinsicBounds(null, selectors[position], null, null);
+            // ((Button)convertView).setCompoundDrawablesWithIntrinsicBounds(null, selectors[position], null, null);
             //((Button)convertView).setCompoundDrawablesWithIntrinsicBounds(0, selectors[position], 0, 0);
             //((ImageButton)convertView).setBackground(selectors[position]);
-            ((ImageButton)convertView).setImageDrawable(selectors[position]);
+            ((ImageButton) convertView).setImageDrawable(selectors[position]);
 
             return convertView;
         }

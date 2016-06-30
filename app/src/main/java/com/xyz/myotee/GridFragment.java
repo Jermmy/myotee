@@ -25,6 +25,7 @@ public class GridFragment extends Fragment {
     private GridView gridView;
     private GridAdapter adapter;
 
+    private OnItemSelectCallBack onItemSelectCallBack;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public class GridFragment extends Fragment {
 
     private void initData() {
         Bundle bundle = getArguments();
-        int index = bundle.getInt("index");
+        final int index = bundle.getInt("index");
         FeatureIconLoadEngine loadEngine = FeatureIconLoadEngine.getInstance(getActivity().getApplicationContext());
         ArrayList<Integer> icons = loadEngine.getFeatureIcons().get(index);
         adapter = new GridAdapter(getActivity(), icons);
@@ -56,9 +57,21 @@ public class GridFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.i("GridFragment", "onItemClick=====>" + position);
                 adapter.setSelected(position);
+                if (onItemSelectCallBack != null) {
+                    onItemSelectCallBack.onItemSelected(view, position, id, index);
+                }
             }
         });
     }
+
+    public void setOnItemSelectCallBack(OnItemSelectCallBack callBack) {
+        this.onItemSelectCallBack = callBack;
+    }
+
+    public interface OnItemSelectCallBack {
+        void onItemSelected(View view, int position, long id, int featureType);
+    }
+
 
 
     class GridAdapter extends BaseAdapter {
@@ -100,6 +113,7 @@ public class GridFragment extends Fragment {
                 convertView = inflater.inflate(R.layout.item_gridview_edit, null, false);
                 ImageView image = (ImageView) convertView.findViewById(R.id.image);
                 image.setImageResource(icons.get(position));
+                image.setBackgroundResource(R.drawable.shape_item_gridview_border);
             }
             if (isSelected[position]) {
                 convertView.setBackgroundResource(R.drawable.shape_item_gridview_edit);
