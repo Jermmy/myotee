@@ -1,7 +1,8 @@
 function testMethod(message) {
 	// body...
-	alert("testMethod")
-	window.control.toastMessage(message)
+	alert(message)
+	//window.control.toastMessage(message)
+	document.getElementById("demo").innerHTML=message
 }
 
 //function testMethod() {
@@ -10,9 +11,15 @@ function testMethod(message) {
 //	window.control.toastMessage()
 //}
 
+//function test() {
+//	// body...
+//	alert("Hello")
+//}
+
 function test() {
-	// body...
-	alert("Hello")
+    alert("Hello")
+	document.getElementById("demo").innerHTML="JS"
+	window.control.toastMessage()
 }
 
 //function testMethod(message) {

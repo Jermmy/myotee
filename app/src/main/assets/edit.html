@@ -1,21 +1,57 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8">
 	<title>编辑头像</title>
+	<!--script lib file-->
+	<script type="text/javascript" src="lib/d3.v3.min.js"></script>
+	<script type="text/javascript" src="lib/zepto.min.js"></script>
 	<script type="text/javascript" src="js/test.js"></script>
+	<script type="text/javascript" src="js/dataparse.js"></script>
+	<script type="text/javascript" src="js/personchange.js"></script>
+	<!--css file-->
+	<link rel="stylesheet" type="text/css" href="css/edit.css">
+	<link rel="stylesheet" type="text/css" href="css/reset.css">
+	<!--data-->
+	<script type="text/javascript", src="data/backgroundData.js"></script>
+	<script type="text/javascript", src="data/bdBubbleData.js"></script>
+	<script type="text/javascript", src="data/bodyData.js"></script>
+	<script type="text/javascript", src="data/bubbl2eData.js"></script>
+	<script type="text/javascript", src="data/bubbleData.js"></script>
+	<script type="text/javascript", src="data/clothData.js"></script>
+	<script type="text/javascript", src="data/defaultHeadData.js"></script>
+	<script type="text/javascript", src="data/eyebrowData.js"></script>
+	<script type="text/javascript", src="data/eyeData.js"></script>
+	<script type="text/javascript", src="data/faceData.js"></script>
+	<script type="text/javascript", src="data/featureData.js"></script>
+	<script type="text/javascript", src="data/glassData.js"></script>
+	<script type="text/javascript", src="data/hairData.js"></script>
+	<script type="text/javascript", src="data/hatData.js"></script>
+	<script type="text/javascript", src="data/hobbyData.js"></script>
+	<script type="text/javascript", src="data/mouthData.js"></script>
+	<script type="text/javascript", src="data/noseData.js"></script>
 </head>
 <body>
-<p id="demo">HHHH</p>
-<script type="text/javascript">
-<!--function test() {-->
-    <!--alert("Hello")-->
-	<!--//document.getElementById("demo").innerHTML="JS"-->
-<!--}-->
-<!--function testMethod(message) {-->
-	<!--// body...-->
-	<!--//alert("Hello")-->
-	<!--window.control.toastMessage(message)-->
-<!--}-->
+<div id="contentDIV"></div>
+<!-- <p id="demo">HHHH</p> -->
+<button onclick="faceChange(20000)">测试</button>
+<script>
+	var svgWidth = 640;
+	var svgHeight = 640;
+	var winWidth = $(window).get(0).innerWidth;
+	var winHeight = $(window).get(0).innerHeight;
+	var minWidth = winWidth > winHeight ? winHeight : winWidth;
+	var svg = d3.select("#contentDIV").append("svg").attr("xmlns", "http://www.w3.org/2000/svg").attr("version", "1.1").attr("id", "contentSVG").attr("width", svgWidth).attr("height", svgHeight).attr("viewBox", "0 0 " + svgWidth + " " + svgHeight).attr("xml:space", "preserve");
+	var face = svg.append("g").attr("id", "face");
+
+	function initHeadEdit() {
+		resizeSVG();
+		faceChange(20000);
+	}
+
+	function resizeSVG() {
+		d3.select("#contentSVG").attr("width", $(window).get(0).innerWidth).attr("height", $(window).get(0).innerHeight);
+	}
 </script>
 </body>
 </html>

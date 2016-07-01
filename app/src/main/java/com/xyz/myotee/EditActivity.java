@@ -167,20 +167,22 @@ public class EditActivity extends BaseFragActivity implements View.OnClickListen
 
     private void editHead(int position, int featureType) {
         //webview.loadUrl("javascript:test()");
-        webview.loadUrl("javascript:testMethod(\"" + "xuyongzhe" + "\")");
+        String num = position + "";
+        //webview.loadUrl("javascript:testMethod(\"" + num + "\")");
         //webview.loadUrl("javascript:testMethod()");
+        webview.loadUrl("javascript:initHeadEdit()");
 
     }
 
     class JsInterface {
-        @JavascriptInterface
-        public void toastMessage(String msg) {
-            Toast.makeText(EditActivity.this, msg, Toast.LENGTH_SHORT).show();
-        }
 //        @JavascriptInterface
-//        public void toastMessage() {
-//            Toast.makeText(EditActivity.this, "toast", Toast.LENGTH_SHORT).show();
+//        public void toastMessage(String msg) {
+//            Toast.makeText(EditActivity.this, msg, Toast.LENGTH_SHORT).show();
 //        }
+        @JavascriptInterface
+        public void toastMessage() {
+            Toast.makeText(EditActivity.this, "toast", Toast.LENGTH_SHORT).show();
+        }
     }
 
     class MyAdapter extends IndicatorViewPager.IndicatorFragmentPagerAdapter {
@@ -205,7 +207,7 @@ public class EditActivity extends BaseFragActivity implements View.OnClickListen
                 fragment.setOnItemSelectCallBack(new GridFragment.OnItemSelectCallBack() {
                     @Override
                     public void onItemSelected(View view, int position, long id, int featureType) {
-
+                        editHead(position, featureType);
                     }
                 });
                 fragments.add(fragment);
