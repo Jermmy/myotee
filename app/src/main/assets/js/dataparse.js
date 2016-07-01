@@ -7,7 +7,7 @@ function expressDataParse(type, part, data, flag) {
 			var e = d3.select(this);
 			var f = e.append(g.type);
 			g.style.forEach(function(h) { f.attr(h.attr, h.val) });
-			//return part;
+			return part;
 		});
 
 		if ((data.cX != 0) || (data.cY != 0)) {
@@ -25,6 +25,7 @@ function expressHairDataParse(type, part, data, flag) {
 			var e = d3.select(this);
 			var f = e.append("path").attr("d", g.path);
 			g.style.forEach(function(h) {f.attr(h.attr, h.val)} );
+			return part;
 		});
 		if ((data.cX != 0) || (data.cY != 0)) {
 			type.attr("transform", "translate(" + data.cX[0] + "," + data.cY[0] + ")");

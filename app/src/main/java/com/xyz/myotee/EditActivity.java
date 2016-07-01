@@ -66,9 +66,6 @@ public class EditActivity extends BaseFragActivity implements View.OnClickListen
 //            R.mipmap.tab_17
 //    };
 
-    private String type[] = new String[]{
-            "头发", "脸型", "眼睛"};
-
     private final int selectedRes[] = new int[]{
             R.mipmap.tab_1_down, R.mipmap.tab_3_down, R.mipmap.tab_6_down
     };
@@ -134,7 +131,7 @@ public class EditActivity extends BaseFragActivity implements View.OnClickListen
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                editHead(0, 0);
+                webview.loadUrl("javascript:initHeadEdit()");
                 Log.i("EditActivity", "onPageFinished============");
                 loadingLayout.setVisibility(View.GONE);
                 contentLayout.setVisibility(View.VISIBLE);
@@ -168,7 +165,18 @@ public class EditActivity extends BaseFragActivity implements View.OnClickListen
         //String num = position + "";
         //webview.loadUrl("javascript:testMethod(\"" + num + "\")");
         //webview.loadUrl("javascript:testMethod()");
-        webview.loadUrl("javascript:initHeadEdit()");
+        //webview.loadUrl("javascript:initHeadEdit()");
+        switch (featureType) {
+            case 0:      // hair
+                webview.loadUrl("javascript:hairChange(" + position + ")");
+                break;
+            case 1:      // face
+                webview.loadUrl("javascript:faceChange(" + position + ")");
+                break;
+            case 2:      // eye
+                webview.loadUrl("javascript:eyeChange(" + position + ")");
+                break;
+        }
 
     }
 

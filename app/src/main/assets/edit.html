@@ -35,6 +35,9 @@
 <div id="contentDIV"></div>
 <!-- <p id="demo">HHHH</p> -->
 <button onclick="initHeadEdit()">测试</button>
+<button onclick="faceChange(20004)">换脸</button>
+<button onclick="eyeChange(4)">换眼睛</button>
+<button onclick="hairChange(4)">换头发</button>
 <script>
     var eyeTag = {
     	id: 5,
@@ -62,19 +65,22 @@
 
 	var roleA = svg.append("g").attr("id", "roleA");
 	var personSVG = roleA.append("g").attr("id", "person");
-
+    // 脸型
 	var face = personSVG.append("g").attr("id", "face");
-	var hair = personSVG.append("g").attr("id", "hair");
+	// 头部
 	var headSVG = personSVG.append("g").attr("id", "head");
 
+	// 脸部五官，应该比头发先绘制，这样头发能挡住五官
 	var facial = headSVG.append("g").attr("id", "facial");
 	var eye = facial.append("g").attr("id", "eye");
 
+	var hair = personSVG.append("g").attr("id", "hair");
+
 	function initHeadEdit() {
 		resizeSVG();
-		hairChange(1);
 		faceChange(20000);
 		eyeChange(1);
+		hairChange(1);
 	}
 
 	function resizeSVG() {

@@ -58,7 +58,12 @@ public class GridFragment extends Fragment {
                 Log.i("GridFragment", "onItemClick=====>" + position);
                 adapter.setSelected(position);
                 if (onItemSelectCallBack != null) {
-                    onItemSelectCallBack.onItemSelected(view, position, id, index);
+                    if (index == 1) {   // face的命名跟别人不一样
+                        int facePosition = 20000 + position;
+                        onItemSelectCallBack.onItemSelected(view, facePosition, id, index);
+                    } else {
+                        onItemSelectCallBack.onItemSelected(view, position, id, index);
+                    }
                 }
             }
         });
@@ -71,8 +76,6 @@ public class GridFragment extends Fragment {
     public interface OnItemSelectCallBack {
         void onItemSelected(View view, int position, long id, int featureType);
     }
-
-
 
     class GridAdapter extends BaseAdapter {
 
@@ -112,6 +115,11 @@ public class GridFragment extends Fragment {
             if (convertView == null) {
                 convertView = inflater.inflate(R.layout.item_gridview_edit, null, false);
                 ImageView image = (ImageView) convertView.findViewById(R.id.image);
+                image.setImageResource(icons.get(position));
+                image.setBackgroundResource(R.drawable.shape_item_gridview_border);
+                convertView.setTag(image);
+            } else {
+                ImageView image = (ImageView) convertView.getTag();
                 image.setImageResource(icons.get(position));
                 image.setBackgroundResource(R.drawable.shape_item_gridview_border);
             }
