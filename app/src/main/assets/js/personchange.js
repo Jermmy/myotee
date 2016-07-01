@@ -6,7 +6,10 @@ function faceChange(i) {
 
 // 头发编辑操作模块
 function hairChange(i) {
-	// body...
+	expressDataParse((hair, "hairPart", hairData["hair"+i]))
 }
 
 // 眼睛编辑操作模块
+function eyeChange(i) {
+	
+}
