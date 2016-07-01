@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -20,7 +19,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.shizhefei.view.indicator.IndicatorViewPager;
 import com.shizhefei.view.indicator.ScrollIndicatorView;
@@ -142,7 +140,7 @@ public class EditActivity extends BaseFragActivity implements View.OnClickListen
                 contentLayout.setVisibility(View.VISIBLE);
             }
         });
-        webview.addJavascriptInterface(new JsInterface(), "control");
+//        webview.addJavascriptInterface(new JsInterface(), "control");
 //        webview.loadUrl("file:///android_asset/edit.html");
     }
 
@@ -167,23 +165,23 @@ public class EditActivity extends BaseFragActivity implements View.OnClickListen
 
     private void editHead(int position, int featureType) {
         //webview.loadUrl("javascript:test()");
-        String num = position + "";
+        //String num = position + "";
         //webview.loadUrl("javascript:testMethod(\"" + num + "\")");
         //webview.loadUrl("javascript:testMethod()");
         webview.loadUrl("javascript:initHeadEdit()");
 
     }
 
-    class JsInterface {
+//    class JsInterface {
+////        @JavascriptInterface
+////        public void toastMessage(String msg) {
+////            Toast.makeText(EditActivity.this, msg, Toast.LENGTH_SHORT).show();
+////        }
 //        @JavascriptInterface
-//        public void toastMessage(String msg) {
-//            Toast.makeText(EditActivity.this, msg, Toast.LENGTH_SHORT).show();
+//        public void toastMessage() {
+//            Toast.makeText(EditActivity.this, "toast", Toast.LENGTH_SHORT).show();
 //        }
-        @JavascriptInterface
-        public void toastMessage() {
-            Toast.makeText(EditActivity.this, "toast", Toast.LENGTH_SHORT).show();
-        }
-    }
+//    }
 
     class MyAdapter extends IndicatorViewPager.IndicatorFragmentPagerAdapter {
 

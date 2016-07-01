@@ -34,19 +34,47 @@
 <body>
 <div id="contentDIV"></div>
 <!-- <p id="demo">HHHH</p> -->
-<button onclick="faceChange(20000)">测试</button>
+<button onclick="initHeadEdit()">测试</button>
 <script>
+    var eyeTag = {
+    	id: 5,
+    	x: 0,
+    	y: 0
+    };
+    var hairTag = {
+    	id: 48,
+    	color: "#222222",
+    	x: 0,
+    	y: 0
+    };
+    var faceTag = {
+    	id: 1,
+    	color: "#F4CDA7",
+    	x: 0,
+    	y: 0
+    };
 	var svgWidth = 640;
 	var svgHeight = 640;
 	var winWidth = $(window).get(0).innerWidth;
 	var winHeight = $(window).get(0).innerHeight;
 	var minWidth = winWidth > winHeight ? winHeight : winWidth;
 	var svg = d3.select("#contentDIV").append("svg").attr("xmlns", "http://www.w3.org/2000/svg").attr("version", "1.1").attr("id", "contentSVG").attr("width", svgWidth).attr("height", svgHeight).attr("viewBox", "0 0 " + svgWidth + " " + svgHeight).attr("xml:space", "preserve");
-	var face = svg.append("g").attr("id", "face");
+
+	var roleA = svg.append("g").attr("id", "roleA");
+	var personSVG = roleA.append("g").attr("id", "person");
+
+	var face = personSVG.append("g").attr("id", "face");
+	var hair = personSVG.append("g").attr("id", "hair");
+	var headSVG = personSVG.append("g").attr("id", "head");
+
+	var facial = headSVG.append("g").attr("id", "facial");
+	var eye = facial.append("g").attr("id", "eye");
 
 	function initHeadEdit() {
 		resizeSVG();
+		hairChange(1);
 		faceChange(20000);
+		eyeChange(1);
 	}
 
 	function resizeSVG() {

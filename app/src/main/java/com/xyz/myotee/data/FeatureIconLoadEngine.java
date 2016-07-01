@@ -43,7 +43,13 @@ public class FeatureIconLoadEngine {
         for (int i = 0; i < TYPES.length; i++) {
             ArrayList<Integer> featureIcon = new ArrayList<>();
             for (int j = 0; j < TYPES_NUM[i]; j++) {
-                int resId = mContext.getResources().getIdentifier(TYPES[i]+"_"+j, "mipmap", mContext.getPackageName());
+                int resId;
+                if (TYPES[i].equals("face")) {  // face的ID跟别人不一样，有点日狗
+                    int index = 20000 + j;
+                    resId = mContext.getResources().getIdentifier(TYPES[i]+"_"+index, "mipmap", mContext.getPackageName());
+                } else {
+                    resId = mContext.getResources().getIdentifier(TYPES[i]+"_"+j, "mipmap", mContext.getPackageName());
+                }
                 if (resId != 0) {
                     featureIcon.add(resId);
                 }
