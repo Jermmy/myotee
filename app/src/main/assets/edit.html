@@ -38,6 +38,8 @@
 <button onclick="faceChange(20004)">换脸</button>
 <button onclick="eyeChange(4)">换眼睛</button>
 <button onclick="hairChange(4)">换头发</button>
+<button onclick="eyebrowChange(4)">换眉毛</button>
+<button onclick="mouthChange(4)">换嘴巴</button>
 <script>
     var eyeTag = {
     	id: 5,
@@ -56,6 +58,12 @@
     	x: 0,
     	y: 0
     };
+    var eyebrowTag = {
+
+    };
+    var mouthTag = {
+
+    };
 	var svgWidth = 640;
 	var svgHeight = 640;
 	var winWidth = $(window).get(0).innerWidth;
@@ -73,6 +81,8 @@
 	// 脸部五官，应该比头发先绘制，这样头发能挡住五官
 	var facial = headSVG.append("g").attr("id", "facial");
 	var eye = facial.append("g").attr("id", "eye");
+	var eyebrow = facial.append("g").attr("id", "eyebrow");
+	var mouth = facial.append("g").attr("id", "mouth");
 
 	var hair = personSVG.append("g").attr("id", "hair");
 
@@ -80,6 +90,8 @@
 		resizeSVG();
 		faceChange(20000);
 		eyeChange(1);
+		eyebrowChange(1);
+		mouthChange(1);
 		hairChange(1);
 	}
 

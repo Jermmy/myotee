@@ -16,7 +16,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -34,8 +33,10 @@ import java.util.List;
  */
 public class EditActivity extends BaseFragActivity implements View.OnClickListener {
 
+    public static final String TAG = "EditActivity";
+
     private LinearLayout loadingLayout;
-    private ImageView loadingImage;
+    //private ImageView loadingImage;
     private RelativeLayout contentLayout;
     private WebView webview;
     private ScrollIndicatorView indicator;
@@ -66,15 +67,8 @@ public class EditActivity extends BaseFragActivity implements View.OnClickListen
 //            R.mipmap.tab_17
 //    };
 
-    private final int selectedRes[] = new int[]{
-            R.mipmap.tab_1_down, R.mipmap.tab_3_down, R.mipmap.tab_6_down
-    };
-
-    private final int unselectedRes[] = new int[]{
-            R.mipmap.tab_1, R.mipmap.tab_3, R.mipmap.tab_6
-    };
-
-    private final int typeSize = selectedRes.length;
+    int selectedRes[] = FeatureIconLoadEngine.SELECTED_RES;
+    int unselectedRes[] = FeatureIconLoadEngine.UNSELECTED_RES;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +83,7 @@ public class EditActivity extends BaseFragActivity implements View.OnClickListen
     private void loadingData() {
         loadEngine = FeatureIconLoadEngine.getInstance(getApplicationContext());
         loadingLayout = (LinearLayout) findViewById(R.id.ll_loading);
-        loadingImage = (ImageView) findViewById(R.id.img_loading);
+        //loadingImage = (ImageView) findViewById(R.id.img_loading);
 
         if (!loadEngine.isInitiated()) {
             loadEngine.initFeatureIcons();
@@ -109,7 +103,7 @@ public class EditActivity extends BaseFragActivity implements View.OnClickListen
         indicator.setScrollBar(new ColorBar(this, Color.BLUE, 5));
 
         indicatorViewPager = new IndicatorViewPager(indicator, viewPager);
-        indicatorViewPager.setPageOffscreenLimit(typeSize);
+        indicatorViewPager.setPageOffscreenLimit(FeatureIconLoadEngine.TYPE_LENGTH);
         back.setOnClickListener(this);
         save.setOnClickListener(this);
         share.setOnClickListener(this);
@@ -160,24 +154,14 @@ public class EditActivity extends BaseFragActivity implements View.OnClickListen
         }
     }
 
-    private void editHead(int position, int featureType) {
+    private void editHead(int position, int resType) {
         //webview.loadUrl("javascript:test()");
         //String num = position + "";
         //webview.loadUrl("javascript:testMethod(\"" + num + "\")");
         //webview.loadUrl("javascript:testMethod()");
         //webview.loadUrl("javascript:initHeadEdit()");
-        switch (featureType) {
-            case 0:      // hair
-                webview.loadUrl("javascript:hairChange(" + position + ")");
-                break;
-            case 1:      // face
-                webview.loadUrl("javascript:faceChange(" + position + ")");
-                break;
-            case 2:      // eye
-                webview.loadUrl("javascript:eyeChange(" + position + ")");
-                break;
-        }
-
+        webview.loadUrl(loadEngine.getUrl(resType, position));
+        Log.i(TAG, "editHead======>position: " + position);
     }
 
 //    class JsInterface {
@@ -228,7 +212,7 @@ public class EditActivity extends BaseFragActivity implements View.OnClickListen
         @Override
         public View getViewForTab(int position, View convertView, ViewGroup container) {
             if (convertView == null) {
-                convertView = (ImageButton) inflater.inflate(R.layout.item_indicator_tab, container, false);
+                convertView = inflater.inflate(R.layout.item_indicator_tab, container, false);
             }
             // ((Button)convertView).setCompoundDrawablesWithIntrinsicBounds(null, selectors[position], null, null);
             //((Button)convertView).setCompoundDrawablesWithIntrinsicBounds(0, selectors[position], 0, 0);

@@ -58,12 +58,8 @@ public class GridFragment extends Fragment {
                 Log.i("GridFragment", "onItemClick=====>" + position);
                 adapter.setSelected(position);
                 if (onItemSelectCallBack != null) {
-                    if (index == 1) {   // face的命名跟别人不一样
-                        int facePosition = 20000 + position;
-                        onItemSelectCallBack.onItemSelected(view, facePosition, id, index);
-                    } else {
-                        onItemSelectCallBack.onItemSelected(view, position, id, index);
-                    }
+                    int resId = FeatureIconLoadEngine.getInstance(getActivity().getApplicationContext()).getResId(index, position);
+                    onItemSelectCallBack.onItemSelected(view, resId, id, index);
                 }
             }
         });
@@ -140,7 +136,6 @@ public class GridFragment extends Fragment {
         }
 
     }
-
 
 
 }

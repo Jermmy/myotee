@@ -18,3 +18,13 @@ function hairChange(i) {
 function eyeChange(i) {
 	expressDataParse(eye, "eyePart", eyeData["eye"+i].frontSide, true);
 }
+
+// 眉毛编辑操作模块
+function eyebrowChange(i) {
+	expressDataParse(eyebrow, "eyebrowPart", eyebrowData["eyebrow"+i].frontSide, true);
+}
+
+// 嘴巴编辑操作模块
+function mouthChange(i) {
+	expressDataParse(mouth, "mouthPart", mouthData["mouth"+i].frontSide, true);
+}
