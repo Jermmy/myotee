@@ -11,13 +11,18 @@ import java.util.ArrayList;
  */
 public class FeatureIconLoadEngine {
 
+//    private String type[] = new String[] {
+//        "头发", "发色", "脸型", "肤色", "睫毛", "眼睛", "嘴巴", "鼻子", "胡子", "眼镜", "衣服",
+//        "帽子", "装扮", "背景", "心情", "气泡", "风格" };
+
     public static final int SELECTED_RES[] = new int[]{
             R.mipmap.tab_1_down, R.mipmap.tab_3_down, R.mipmap.tab_5_down, R.mipmap.tab_6_down,
             R.mipmap.tab_7_down
     };
 
     public static final int UNSELECTED_RES[] = new int[]{
-            R.mipmap.tab_1, R.mipmap.tab_3, R.mipmap.tab_5, R.mipmap.tab_6, R.mipmap.tab_7
+            R.mipmap.tab_1, R.mipmap.tab_3, R.mipmap.tab_5, R.mipmap.tab_6,
+            R.mipmap.tab_7
     };
 
     public static final int TYPE_LENGTH = SELECTED_RES.length;

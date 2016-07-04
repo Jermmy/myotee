@@ -1,6 +1,8 @@
 package com.xyz.myotee;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,13 +20,17 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.shizhefei.view.indicator.IndicatorViewPager;
 import com.shizhefei.view.indicator.ScrollIndicatorView;
 import com.shizhefei.view.indicator.slidebar.ColorBar;
 import com.xyz.myotee.base.BaseFragActivity;
 import com.xyz.myotee.data.FeatureIconLoadEngine;
+import com.xyz.myotee.global.Constant;
+import com.xyz.myotee.util.ScreenShotUtil;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,26 +53,6 @@ public class EditActivity extends BaseFragActivity implements View.OnClickListen
 
     private FeatureIconLoadEngine loadEngine;
 
-//    private String type[] = new String[] {
-//        "头发", "发色", "脸型", "肤色", "睫毛", "眼睛", "嘴巴", "鼻子", "胡子", "眼镜", "衣服",
-//        "帽子", "装扮", "背景", "心情", "气泡", "风格" };
-//
-//    private final int selectedRes[] = new int[] {
-//            R.mipmap.tab_1_down, R.mipmap.tab_2_down, R.mipmap.tab_3_down, R.mipmap.tab_4_down,
-//            R.mipmap.tab_5_down, R.mipmap.tab_6_down, R.mipmap.tab_7_down, R.mipmap.tab_8_down,
-//            R.mipmap.tab_9_down, R.mipmap.tab_10_down, R.mipmap.tab_11_down, R.mipmap.tab_12_down,
-//            R.mipmap.tab_13_down, R.mipmap.tab_14_down, R.mipmap.tab_15_down, R.mipmap.tab_16_down,
-//            R.mipmap.tab_17_down
-//    };
-//
-//    private final int unselectedRes[] = new int[] {
-//            R.mipmap.tab_1, R.mipmap.tab_2, R.mipmap.tab_3, R.mipmap.tab_4,
-//            R.mipmap.tab_5, R.mipmap.tab_6, R.mipmap.tab_7, R.mipmap.tab_8,
-//            R.mipmap.tab_9, R.mipmap.tab_10, R.mipmap.tab_11, R.mipmap.tab_12,
-//            R.mipmap.tab_13, R.mipmap.tab_14, R.mipmap.tab_15, R.mipmap.tab_16,
-//            R.mipmap.tab_17
-//    };
-
     int selectedRes[] = FeatureIconLoadEngine.SELECTED_RES;
     int unselectedRes[] = FeatureIconLoadEngine.UNSELECTED_RES;
 
@@ -88,7 +74,6 @@ public class EditActivity extends BaseFragActivity implements View.OnClickListen
         if (!loadEngine.isInitiated()) {
             loadEngine.initFeatureIcons();
         }
-        //loadingLayout.setVisibility(View.GONE);
     }
 
 
@@ -108,9 +93,7 @@ public class EditActivity extends BaseFragActivity implements View.OnClickListen
         save.setOnClickListener(this);
         share.setOnClickListener(this);
 
-        //contentLayout.setVisibility(View.VISIBLE);
     }
-
 
     private void initAdapter() {
         adapter = new MyAdapter(getSupportFragmentManager());
@@ -131,6 +114,8 @@ public class EditActivity extends BaseFragActivity implements View.OnClickListen
                 contentLayout.setVisibility(View.VISIBLE);
             }
         });
+
+
 //        webview.addJavascriptInterface(new JsInterface(), "control");
 //        webview.loadUrl("file:///android_asset/edit.html");
     }
@@ -148,6 +133,19 @@ public class EditActivity extends BaseFragActivity implements View.OnClickListen
                 finish();
                 break;
             case R.id.btn_save:
+                try {
+                    Rect rect = new Rect();
+                    rect.left = 0;
+                    rect.top = 0;
+                    rect.bottom = webview.getHeight()-1;
+                    rect.right = webview.getWidth()-1;
+
+                    ScreenShotUtil.saveScreenShot(webview, rect,
+                            Constant.APP_PATH + System.currentTimeMillis() + ".png", Bitmap.CompressFormat.PNG);
+                    Toast.makeText(this, "保存头像成功", Toast.LENGTH_SHORT).show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
             case R.id.btn_share:
                 break;
@@ -155,11 +153,6 @@ public class EditActivity extends BaseFragActivity implements View.OnClickListen
     }
 
     private void editHead(int position, int resType) {
-        //webview.loadUrl("javascript:test()");
-        //String num = position + "";
-        //webview.loadUrl("javascript:testMethod(\"" + num + "\")");
-        //webview.loadUrl("javascript:testMethod()");
-        //webview.loadUrl("javascript:initHeadEdit()");
         webview.loadUrl(loadEngine.getUrl(resType, position));
         Log.i(TAG, "editHead======>position: " + position);
     }
