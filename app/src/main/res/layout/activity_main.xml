@@ -23,6 +23,7 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_centerVertical="true"
+                android:checked="true"
                 android:background="@drawable/selector_btn_homepage_sound"
                 android:textOff=""
                 android:textOn="" />

@@ -2,7 +2,10 @@ package com.xyz.myotee;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +22,11 @@ import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.GridHolder;
 import com.xyz.myotee.base.BaseActivity;
 
+import java.io.IOException;
+
 public class MainActivity extends BaseActivity implements View.OnClickListener, ToggleButton.OnCheckedChangeListener {
+
+    public static final String TAG = "MainActivity";
 
     private ToggleButton sound;
     private Button share, man, woman;
@@ -27,12 +34,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private LinearLayout doubleMode, history, newProduct;
     private DialogPlus dialog;
 
+    private MediaPlayer mediaPlayer;
+
+    private boolean shouldPlaySound = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
         initDialog();
+        initMedia();
     }
 
     private void initView() {
@@ -73,16 +85,50 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         });
     }
 
+    private void initMedia() {
+        mediaPlayer = new MediaPlayer();
+    }
+
     @Override
     public void onClick(View v) {
+        AssetFileDescriptor assetFileDescriptor;
         switch (v.getId()) {
             case R.id.btn_share:
                 dialog.show();
                 break;
             case R.id.btn_man:
+                if (shouldPlaySound) {
+                    mediaPlayer.reset();
+                    assetFileDescriptor = getResources().openRawResourceFd(R.raw.boy);
+                    if (assetFileDescriptor != null) {
+                        try {
+                            mediaPlayer.setDataSource(assetFileDescriptor.getFileDescriptor(),
+                                    assetFileDescriptor.getStartOffset(), assetFileDescriptor.getLength());
+                            mediaPlayer.prepare();
+                            mediaPlayer.start();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
                 startActivity(new Intent(this, EditActivity.class));
                 break;
             case R.id.btn_woman:
+                if (shouldPlaySound) {
+                    mediaPlayer.reset();
+                    assetFileDescriptor = getResources().openRawResourceFd(R.raw.girl);
+                    if (assetFileDescriptor != null) {
+                        try {
+                            mediaPlayer.setDataSource(assetFileDescriptor.getFileDescriptor(),
+                                    assetFileDescriptor.getStartOffset(), assetFileDescriptor.getLength());
+                            mediaPlayer.prepare();
+                            mediaPlayer.start();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                startActivity(new Intent(this, EditActivity.class));
                 break;
             case R.id.btn_feedback:
                 break;
@@ -100,9 +146,28 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.stop();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.stop();
+        }
+        mediaPlayer.release();
+    }
+
+    @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()) {
             case R.id.togbtn_sound:
+                shouldPlaySound = isChecked;
+                Log.i(TAG, "shouldPlaySound=====>" + shouldPlaySound);
                 break;
         }
     }
