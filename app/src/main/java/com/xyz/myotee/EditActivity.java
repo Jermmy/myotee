@@ -137,8 +137,8 @@ public class EditActivity extends BaseFragActivity implements View.OnClickListen
                     Rect rect = new Rect();
                     rect.left = 0;
                     rect.top = 0;
-                    rect.bottom = webview.getHeight()-1;
-                    rect.right = webview.getWidth()-1;
+                    rect.bottom = webview.getHeight();
+                    rect.right = webview.getWidth();
 
                     ScreenShotUtil.saveScreenShot(webview, rect,
                             Constant.APP_PATH + System.currentTimeMillis() + ".png", Bitmap.CompressFormat.PNG);

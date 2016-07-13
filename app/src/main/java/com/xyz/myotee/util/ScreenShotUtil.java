@@ -2,7 +2,6 @@ package com.xyz.myotee.util;
 
 import android.graphics.Bitmap;
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.View;
 
 import java.io.File;
@@ -18,10 +17,6 @@ public class ScreenShotUtil {
     public static Bitmap getScreenShot(View v, Rect rect) {
         v.buildDrawingCache();
 
-        //v.getWindowVisibleDisplayFrame(rect);
-        Log.i(TAG, "rect=========>" + rect + "\nwidth: " + rect.width() + "  height: " + rect.height());
-        Log.i(TAG, "getScreenShot=====>width: " + v.getDrawingCache().getWidth() +
-             "   height: " + v.getDrawingCache().getHeight());
         Bitmap bmp = Bitmap.createBitmap(v.getDrawingCache(),
                 rect.left, rect.top, rect.width(), rect.height());
         v.destroyDrawingCache();
@@ -36,7 +31,7 @@ public class ScreenShotUtil {
         }
         FileOutputStream fileOutputStream = new FileOutputStream(file);
         if (fileOutputStream != null) {
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
+            bitmap.compress(format, 100, fileOutputStream);
             fileOutputStream.flush();
             fileOutputStream.close();
         }
